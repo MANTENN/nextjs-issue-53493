@@ -1,0 +1,276 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: ;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --ring: 240 5% 64.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: ;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+
+    --ring: 240 3.7% 25.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+  }
+}
+
+@layer components {
+  .drawer {
+    @apply relative grid w-full;
+    grid-auto-columns: max-content minmax(0, auto);
+
+    & > .drawer-content {
+      @apply col-start-2 row-start-1;
+    }
+
+    & > .drawer-side {
+      @apply pointer-events-none z-10 fixed top-0 left-0 col-start-1 row-start-1 grid grid-cols-1 grid-rows-1 w-full overflow-y-auto overscroll-contain [scrollbar-width:none];
+
+      & > * {
+        @apply col-start-1 row-start-1;
+      }
+
+      & > *:not(.drawer-overlay) {
+        @apply translate-x-0 transition-transform duration-200 ease-in -left-full relative;
+      }
+
+      & > .drawer-overlay {
+        @apply sticky inset-0 cursor-pointer bg-transparent ease-in-out transition duration-300;
+      }
+    }
+
+    & > .drawer-toggle:checked ~ .drawer-side {
+      @apply inset-0 pointer-events-auto;
+
+      & > .drawer-overlay {
+        @apply block w-full h-full;
+      }
+
+      & > *:not(.drawer-overlay) {
+        @apply translate-x-full ease-out h-fit min-h-full;
+      }
+    }
+  }
+
+  .drawer-none {
+    @apply static;
+
+    & > .drawer-side {
+      @apply pointer-events-auto sticky w-auto visible;
+
+      & > *:not(.drawer-overlay) {
+        @apply !transition-none static left-auto !translate-x-0;
+      }
+
+      & > .drawer-overlay {
+        @apply !hidden;
+      }
+
+      & > .drawer-toggle:checked ~ .drawer-side {
+        @apply inset-auto;
+      }
+    }
+  }
+}
+
+@layer components {
+  .tabular-nums {
+    font-family: var(--font-mono);
+  }
+}
+
+@layer components {
+  .gradient-blur {
+    z-index: 5;
+  }
+  .gradient-blur > div,
+  .gradient-blur::before,
+  .gradient-blur::after {
+    position: absolute;
+    inset: 0;
+  }
+  .gradient-blur::before {
+    content: '';
+    z-index: 1;
+    backdrop-filter: blur(0.5px);
+    mask: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 1) 12.5%,
+      rgba(0, 0, 0, 1) 25%,
+      rgba(0, 0, 0, 0) 37.5%
+    );
+  }
+  .gradient-blur > div:nth-of-type(1) {
+    z-index: 2;
+    backdrop-filter: blur(1px);
+    mask: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 12.5%,
+      rgba(0, 0, 0, 1) 25%,
+      rgba(0, 0, 0, 1) 37.5%,
+      rgba(0, 0, 0, 0) 50%
+    );
+  }
+  .gradient-blur > div:nth-of-type(2) {
+    z-index: 3;
+    backdrop-filter: blur(2px);
+    mask: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 25%,
+      rgba(0, 0, 0, 1) 37.5%,
+      rgba(0, 0, 0, 1) 50%,
+      rgba(0, 0, 0, 0) 62.5%
+    );
+  }
+  .gradient-blur > div:nth-of-type(3) {
+    z-index: 4;
+    backdrop-filter: blur(4px);
+    mask: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 37.5%,
+      rgba(0, 0, 0, 1) 50%,
+      rgba(0, 0, 0, 1) 62.5%,
+      rgba(0, 0, 0, 0) 75%
+    );
+  }
+  .gradient-blur > div:nth-of-type(4) {
+    z-index: 5;
+    backdrop-filter: blur(8px);
+    mask: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(0, 0, 0, 1) 62.5%,
+      rgba(0, 0, 0, 1) 75%,
+      rgba(0, 0, 0, 0) 87.5%
+    );
+  }
+  .gradient-blur > div:nth-of-type(5) {
+    z-index: 6;
+    backdrop-filter: blur(16px);
+    mask: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 62.5%,
+      rgba(0, 0, 0, 1) 75%,
+      rgba(0, 0, 0, 1) 87.5%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+  .gradient-blur > div:nth-of-type(6) {
+    z-index: 7;
+    backdrop-filter: blur(32px);
+    mask: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 75%,
+      rgba(0, 0, 0, 1) 87.5%,
+      rgba(0, 0, 0, 1) 100%
+    );
+  }
+  .gradient-blur::after {
+    content: '';
+    z-index: 8;
+    backdrop-filter: blur(64px);
+    mask: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 87.5%,
+      rgba(0, 0, 0, 1) 100%
+    );
+  }
+}
+
+@layer components {
+  .rainbow {
+    background-image: linear-gradient(
+      81.02deg,
+      hsl(308, 21%, 72%) -23.49%,
+      hsl(0, 84%, 60%) 35.66%,
+      hsl(270, 100%, 80%) 114.8%
+    );
+  }
+
+  .rainbow-text {
+    font-weight: 600;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    @apply rainbow;
+  }
+
+  .glow {
+    position: relative;
+    z-index: 1;
+
+    &::before {
+      content: '';
+      z-index: -1;
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.5;
+      box-shadow: 0 1px 5rem 1rem hsla(0, 84%, 60%, 0.5);
+    }
+  }
+}
