@@ -61,7 +61,7 @@ export default function Sider() {
                 key={name}
               >
                 <Drawer.Close asChild>
-                  <Link href={`${path}${search}`} suppressHydrationWarning>
+                  <Link href={`${path}${search}`}>
                     <Icon className="mr-2 h-4 w-4" />
                     {name}
                   </Link>
